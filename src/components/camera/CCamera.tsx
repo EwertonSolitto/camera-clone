@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Text, View } from 'react-native';
 
 import { styles } from './styles';
 import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { CMessage } from '../message/CMessage';
 
 export function CCamera() {
   const [facing, setFacing] = useState<CameraType>('back');
@@ -15,13 +15,7 @@ export function CCamera() {
   }, [])
 
   if (!permission) {
-    
-    return (
-      <View style={styles.container}>
-        <Text style={styles.message}>We need your permission to show the camera</Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    )
+    return <CMessage permission={requestPermission} />
   }
 
   function toggleCameraFacing() {
