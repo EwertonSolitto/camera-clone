@@ -27,11 +27,16 @@ export function CCamera() {
   return (
     <CameraView style={styles.camera} facing={facing}>
 
+      <TouchableHighlight style={styles.playButton}>
+        <FontAwesome6 name="dot-circle" size={80} color="white" />
+      </TouchableHighlight>
+
       <View style={styles.bottomContainer}>
         <TouchableHighlight onPress={toggleCameraFacing} style={styles.bottomButton}>
           <FontAwesome6 name="camera-rotate" size={56} color="white" />
         </TouchableHighlight>
       </View>
+
     </CameraView>
   );
 }

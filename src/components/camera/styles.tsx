@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   camera: {
-    flex: 1
+    flex: 1,
+    alignItems: "center"
   },
   bottomContainer: {
     width: "100%",
@@ -18,6 +19,12 @@ export const styles = StyleSheet.create({
     width: 64,
     height: 64,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    zIndex: 99
+  },
+  playButton: {
+    position: "absolute",
+    bottom: "15%",
+    zIndex: 100
   }
 });
