@@ -4,10 +4,13 @@ import { Button, Text, View } from 'react-native';
 import { styles } from './styles';
 import { PermissionResponse } from 'expo-camera';
 
-export function CMessage({permission}: {permission: () => Promise<PermissionResponse>}) {
+export function CMessage({permission, message}: {
+  permission: () => Promise<PermissionResponse>, 
+  message: string
+}) {
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>We need your permission to show the camera</Text>
+      <Text style={styles.message}>{message}</Text>
       <Button onPress={permission} title="grant permission" />
     </View>
 );
