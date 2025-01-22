@@ -66,7 +66,9 @@ export function CCamera() {
       zoom={zoom}
       enableTorch={flash}
     >
-
+      <View style={styles.scopeContainer}>
+        <View style={styles.scope}></View>
+      </View>
       <View style={styles.sliderContainer}>
         <Slider
           value={zoom}

@@ -5,6 +5,18 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center"
   },
+  scopeContainer: {
+    position: "absolute",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  scope: {
+    width: 50,
+    height: 50,
+    borderWidth: 1,
+    borderColor: 'white'
+  },
   bottomContainer: {
     width: "100%",
     height: 100,
