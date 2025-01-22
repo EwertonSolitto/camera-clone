@@ -8,12 +8,12 @@ export const styles = StyleSheet.create({
   bottomContainer: {
     width: "100%",
     height: 100,
-    backgroundColor: "#121212",
     position: "absolute",
     bottom: 0,
     paddingInline: 16,
-    alignItems: "flex-end",
-    justifyContent: "center"
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: 'row'
   },
   bottomButton: {
     width: 64,
@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   playButton: {
     position: "absolute",
-    bottom: "15%",
+    bottom: "9%",
     zIndex: 100
   },
   sliderContainer: {

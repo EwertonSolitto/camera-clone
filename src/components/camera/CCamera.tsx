@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { Camera, CameraType, CameraView, FlashMode, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
@@ -12,7 +12,10 @@ export function CCamera() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [zoom, setZoom] = useState<number>(0)
   const [showZoom, setShowZoom] = useState<boolean>(false)
+  const [flash, setFlash] = useState<boolean>(false)
+
   const camRef = useRef<CameraView | null>(null)
+
   const [cameraPermission, cameraRequestPermission] = useCameraPermissions();
   const [mediaPermission, mediaRequestPermission] = MediaLibrary.usePermissions();
 
@@ -51,12 +54,17 @@ export function CCamera() {
     setShowZoom(!showZoom)
   }
 
+  function toggleFlash() {
+    setFlash(!flash)
+  }
+
   return (
     <CameraView 
       style={styles.camera} 
       facing={facing} 
       ref={camRef}
-      zoom={zoom}  
+      zoom={zoom}
+      enableTorch={flash}
     >
 
       <View style={styles.sliderContainer}>
@@ -71,7 +79,7 @@ export function CCamera() {
           thumbTintColor="cyan"
         />
         <TouchableOpacity onPress={toggleShowZoom}>
-          <FontAwesome6 name="magnifying-glass" size={48} color="white" />
+          <FontAwesome6 name="magnifying-glass" size={48} color={showZoom ? "white" : "#121212"} />
         </TouchableOpacity>
       </View>
 
@@ -80,6 +88,10 @@ export function CCamera() {
       </TouchableOpacity>
 
       <View style={styles.bottomContainer}>
+       <TouchableOpacity onPress={toggleFlash} style={[styles.bottomButton]}>
+          <FontAwesome6 name="lightbulb" size={48} color={flash ? "white" : "#121212"} />
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={toggleCameraFacing} style={styles.bottomButton}>
           <FontAwesome6 name="camera-rotate" size={48} color="white" />
         </TouchableOpacity>
