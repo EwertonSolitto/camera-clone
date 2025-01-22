@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { TouchableHighlight, TouchableOpacity, View } from 'react-native';
-import { Camera, CameraType, CameraView, FlashMode, useCameraPermissions } from 'expo-camera';
+import { TouchableOpacity, View } from 'react-native';
+import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
