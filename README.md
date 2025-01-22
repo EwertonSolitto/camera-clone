@@ -4,7 +4,7 @@
 
 **Camera Clone** is a React Native app that works like a usual camera.
 
-# Feature 🔥
+# Features 🔥
 
 - Take picture
 
