@@ -26,5 +26,21 @@ export const styles = StyleSheet.create({
     position: "absolute",
     bottom: "15%",
     zIndex: 100
+  },
+  sliderContainer: {
+    width: 600,
+    height: 56,
+    left: "39%",
+    top: "45%",
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: 16,
+    transform: [{rotate: '90deg'}]
+  },
+  slider: {
+    height: 10,
+    width: 524,
+    transform: [{rotate: '180deg'}]
   }
 });
