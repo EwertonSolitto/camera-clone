@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { CameraMode, CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { Camera, CameraMode, CameraType, CameraView, useCameraPermissions, useMicrophonePermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
@@ -15,11 +15,13 @@ export function CCamera() {
   const [showZoom, setShowZoom] = useState<boolean>(false)
   const [flash, setFlash] = useState<boolean>(false)
   const [mode, setMode] = useState<CameraMode>("picture")
+  const [recording, setRecording] = useState(false);
 
   const camRef = useRef<CameraView | null>(null)
 
   const [cameraPermission, cameraRequestPermission] = useCameraPermissions();
   const [mediaPermission, mediaRequestPermission] = MediaLibrary.usePermissions();
+  const [microphonePermission, microphoneRequestPermission] = useMicrophonePermissions()
 
   useEffect(() => {
     if(mode === 'video') {
@@ -36,6 +38,10 @@ export function CCamera() {
     (async () => {
       mediaRequestPermission()
     })();
+
+    (async () => {
+      microphoneRequestPermission()
+    })
   }, [])
 
   if (!cameraPermission?.granted) {
@@ -44,6 +50,10 @@ export function CCamera() {
 
   if (!mediaPermission?.granted) {
     return <CMessage permission={mediaRequestPermission} message="We need your permission to use your media."/>
+  }
+
+  if (!microphonePermission?.granted) {
+    return <CMessage permission={microphoneRequestPermission} message="We need your permission to use your microphone."/>
   }
 
   function toggleCameraFacing() {
@@ -55,6 +65,39 @@ export function CCamera() {
 
     if(picture) {
       MediaLibrary.createAssetAsync(picture.uri)
+    }
+  }
+
+  async function takeVideo() {
+    setRecording(true)
+    camRef.current?.recordAsync({
+      maxDuration: 10
+    }).then((data) => {
+      if(data) {
+        MediaLibrary.saveToLibraryAsync(data.uri)
+      }
+      setRecording(false)
+    }).catch((error) => {
+      setRecording(false)
+      console.log(error)
+    })
+  }
+
+  function stopVideo() {
+    camRef.current?.stopRecording()
+    setRecording(false)
+  }
+  
+
+  function pressButton() {
+    if(mode === 'picture') {
+      takePicture()
+    } else if(mode === 'video') {
+      if(!recording) {
+        takeVideo()
+      } else if(recording) {
+        stopVideo()
+      }
     }
   }
 
@@ -74,6 +117,8 @@ export function CCamera() {
       zoom={zoom}
       enableTorch={flash}
       mode={mode}
+      videoQuality='1080p'
+      ratio='16:9'
     >
       <View style={styles.cameraModeChangerContainer}>
         <CButton text='Photo' func={() => setMode('picture')} active={mode === 'picture'}/>
@@ -100,8 +145,8 @@ export function CCamera() {
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.playButton} onPress={takePicture}>
-        <FontAwesome6 name="dot-circle" size={80} color="white" />
+      <TouchableOpacity style={styles.playButton} onPress={pressButton}>
+        <FontAwesome6 name="dot-circle" size={80} color={recording ? 'red' : "white"} />
       </TouchableOpacity>
 
       <View style={styles.bottomContainer}>
