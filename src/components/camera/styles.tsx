@@ -54,5 +54,11 @@ export const styles = StyleSheet.create({
     height: 10,
     width: 524,
     transform: [{rotate: '180deg'}]
+  },
+  cameraModeChangerContainer: {
+    position: 'absolute',
+    top: "5%",
+    flexDirection: "row",
+    gap: '96'
   }
 });

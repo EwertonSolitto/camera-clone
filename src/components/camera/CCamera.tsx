@@ -1,24 +1,32 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { CameraType, CameraView, useCameraPermissions } from 'expo-camera';
+import { CameraMode, CameraType, CameraView, useCameraPermissions } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 import { CMessage } from '../message/CMessage';
 import { styles } from './styles';
 import Slider from '@react-native-community/slider';
+import { CButton } from '../button/CButton';
 
 export function CCamera() {
   const [facing, setFacing] = useState<CameraType>('back');
   const [zoom, setZoom] = useState<number>(0)
   const [showZoom, setShowZoom] = useState<boolean>(false)
   const [flash, setFlash] = useState<boolean>(false)
+  const [mode, setMode] = useState<CameraMode>("picture")
 
   const camRef = useRef<CameraView | null>(null)
 
   const [cameraPermission, cameraRequestPermission] = useCameraPermissions();
   const [mediaPermission, mediaRequestPermission] = MediaLibrary.usePermissions();
 
+  useEffect(() => {
+    if(mode === 'video') {
+      setShowZoom(false)
+      setZoom(0)
+    }
+  }, [mode])
 
   useEffect(() => {
     (async () => {
@@ -65,11 +73,18 @@ export function CCamera() {
       ref={camRef}
       zoom={zoom}
       enableTorch={flash}
+      mode={mode}
     >
+      <View style={styles.cameraModeChangerContainer}>
+        <CButton text='Photo' func={() => setMode('picture')} active={mode === 'picture'}/>
+        <CButton text='Video' func={() => setMode('video')} active={mode === 'video'}/>
+      </View>
+
       <View style={styles.scopeContainer}>
         <View style={styles.scope}></View>
       </View>
-      <View style={styles.sliderContainer}>
+      
+      <View style={[styles.sliderContainer, mode === 'video' && {display: 'none'}]}>
         <Slider
           value={zoom}
           onValueChange={value => setZoom(value)}
